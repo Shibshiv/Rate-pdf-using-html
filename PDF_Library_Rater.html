@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF Library Rater</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.5.136/pdf.min.mjs" type="module"></script>
+<style>
+body{font-family:Arial,sans-serif;margin:20px;background:#f5f5f5}
+button{padding:10px 16px;margin:10px 0}
+table{border-collapse:collapse;width:100%;background:white}
+th,td{border:1px solid #ddd;padding:8px}
+th{background:#333;color:white}
+</style>
+</head>
+<body>
+<h2>PDF Library Rater (Student Project)</h2>
+<p>Select a folder containing PDFs. Browser security prevents automatic scanning of all PC drives.</p>
+<button id="pick">Choose Folder</button>
+<table>
+<thead><tr><th>PDF</th><th>Pages</th><th>Words</th><th>Rating</th><th>Reason</th></tr></thead>
+<tbody id="results"></tbody>
+</table>
+<script type="module">
+import * as pdfjsLib from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.5.136/pdf.min.mjs';
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.5.136/pdf.worker.min.mjs';
+async function extractText(file){
+ const buf=await file.arrayBuffer();
+ const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+ let text='';
+ for(let i=1;i<=pdf.numPages;i++){
+  const page=await pdf.getPage(i);
+  const content=await page.getTextContent();
+  text += content.items.map(x=>x.str).join(' ')+' ';
+ }
+ return {pages:pdf.numPages,text};
+}
+function rate(text,pages){
+ const words=text.split(/\s+/).filter(Boolean).length;
+ let score=0;
+ score += Math.min(30,pages/5);
+ score += Math.min(25,words/2000);
+ const keywords=['introduction','chapter','summary','reference','exercise'];
+ score += keywords.filter(k=>text.toLowerCase().includes(k)).length*5;
+ score=Math.min(100,Math.round(score));
+ let reason='Basic heuristic rating based on size and structure';
+ return {score,words,reason};
+}
+
+document.getElementById('pick').onclick=async()=>{
+ const dir=await window.showDirectoryPicker();
+ const tbody=document.getElementById('results');
+ tbody.innerHTML='';
+ async function walk(folder){
+  for await (const [name,handle] of folder.entries()){
+   if(handle.kind==='directory') await walk(handle);
+   else if(name.toLowerCase().endsWith('.pdf')){
+    try{
+      const file=await handle.getFile();
+      const data=await extractText(file);
+      const r=rate(data.text,data.pages);
+      const row=`<tr><td>${name}</td><td>${data.pages}</td><td>${r.words}</td><td>${r.score}/100</td><td>${r.reason}</td></tr>`;
+      tbody.insertAdjacentHTML('beforeend',row);
+    }catch(e){console.error(e)}
+   }
+  }
+ }
+ await walk(dir);
+};
+</script>
+</body>
+</html>
