@@ -1,69 +1,109 @@
-# Rate-pdf-using-html
+# ✨ Rate-pdf-using-html
 
-A simple browser-based PDF library rater built with HTML, JavaScript, and PDF.js.
+<p align="center">
+  <img src="https://img.shields.io/badge/status-active-success?style=for-the-badge" alt="Status" />
+  <img src="https://img.shields.io/badge/language-HTML%20%7C%20JavaScript-informational?style=for-the-badge" alt="Language" />
+  <img src="https://img.shields.io/badge/license-MIT-blue?style=for-the-badge" alt="License" />
+</p>
 
-## Overview
+<p align="center">
+  A sleek, browser-based PDF library rater that analyzes local PDF files and scores them using simple, transparent heuristics.
+</p>
 
-This project lets you choose a folder of PDF files from your computer and generates a basic rating for each file based on simple heuristics such as:
+---
 
-- number of pages
-- estimated word count
-- presence of common structural keywords like `introduction`, `chapter`, `summary`, `reference`, and `exercise`
+## 🌟 Overview
 
-The results are displayed in a table directly in the browser.
+**Rate-pdf-using-html** is a lightweight, client-side PDF analysis tool built with **HTML**, **JavaScript**, and **PDF.js**.
 
-## Features
+It allows you to select a folder of PDFs from your device, extract text directly in the browser, and generate a rating for each file based on document structure and content signals.
 
-- Select a local folder containing PDF files
-- Extract text from each PDF in the browser
-- Rate PDFs using a simple scoring system
-- Display page count, word count, rating, and reasoning
-- Runs entirely client-side
+Perfect for quick library checks, school projects, and simple PDF triage workflows.
 
-## How it works
+---
 
-The app uses [`pdf.js`](https://cdnjs.cloudflare.com/ajax/libs/pdf.js/) to read PDF files in the browser. For each PDF:
+## 🚀 Key Features
 
-1. The browser opens a folder picker
-2. Each `.pdf` file in the selected folder is processed
-3. Text is extracted from all pages
-4. A heuristic score from `0` to `100` is calculated
-5. The results are shown in a table
+- 📂 Select a local folder containing PDF files
+- 🔍 Extract text from each PDF in the browser
+- 📊 Generate a rating for each document
+- 🧠 Use simple heuristics based on pages, words, and keywords
+- 🖥️ View results instantly in a clean table
+- 🔒 Runs entirely client-side — no server required
 
-## Scoring logic
+---
 
-The rating is based on a simple heuristic:
+## ⚙️ How It Works
 
-- up to 40 points for page count
-- up to 25 points for word count
-- 5 points for each matched keyword
-- final score is capped at 100
+The app uses [`pdf.js`](https://cdnjs.cloudflare.com/ajax/libs/pdf.js/) to process PDF files locally in the browser.
 
-This means the score is only a rough estimate and is best suited for quick comparisons rather than formal evaluation.
+### Workflow
 
-## Project structure
+1. Open the page in a modern browser
+2. Click **Choose Folder**
+3. Select a directory containing PDF files
+4. The app extracts text from each document
+5. A score from `0` to `100` is calculated
+6. Results are displayed in a structured table
 
-- `PDF_Library_Rater.html` — main app file
+---
+
+## 🧮 Scoring Logic
+
+The rating is intentionally simple and easy to understand:
+
+- **Page count** contributes up to 40 points
+- **Word count** contributes up to 25 points
+- **Keyword matches** add points for terms such as:
+  - `introduction`
+  - `chapter`
+  - `summary`
+  - `reference`
+  - `exercise`
+- Final score is capped at **100**
+
+> This rating is designed for quick comparison, not academic or production-grade assessment.
+
+---
+
+## 📁 Project Structure
+
+- `PDF_Library_Rater.html` — main application file
 - `README.md` — project documentation
-- `LICENSE` — MIT license
+- `LICENSE` — MIT License
 
-## Usage
+---
 
-1. Open `PDF_Library_Rater.html` in a browser.
+## 🛠️ Requirements
+
+- A modern browser with support for the **File System Access API**
+- Internet access to load **PDF.js** from the CDN
+
+---
+
+## ▶️ Usage
+
+1. Open `PDF_Library_Rater.html` in your browser.
 2. Click **Choose Folder**.
-3. Select a folder that contains PDF files.
-4. View the extracted statistics and ratings in the table.
+3. Pick a folder containing `.pdf` files.
+4. Review the pages, word counts, scores, and explanations.
 
-## Requirements
+---
 
-- A modern browser that supports the File System Access API
-- Internet access to load `pdf.js` from the CDN
+## ⚠️ Notes
 
-## Notes
+- For privacy and security reasons, browsers cannot scan your entire device automatically.
+- You must manually choose the folder you want to analyze.
+- This project uses a heuristic approach, so scores are approximate.
 
-- Browser security prevents automatic scanning of your whole computer; you must manually choose a folder.
-- This project is a student project and uses a lightweight heuristic rather than machine learning.
+---
 
-## License
+## 📜 License
 
-This project is licensed under the MIT License. See `LICENSE` for details.
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+<p align="center">
+  Made with ❤️ for simple PDF analysis.
+</p>
